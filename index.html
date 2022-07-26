@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        html{
+            background-color: rgb(7, 26, 50);
+            text-align: center;
+            /* height: 50rem; */
+            font-family: 'Times New Roman', Times, serif;
+            
+        }
+        body{
+            margin: auto;
+
+        }
+        h1, h2{
+            color: rgb(233, 209, 168);
+        }
+
+        .box{
+            height: 7.5rem;
+            width: 8rem;
+            background-color: rgb(38, 87, 222);
+             font-size: 100px;
+            text-align: center; cursor: pointer;
+            
+            color: rgb(253, 253, 28);
+        }
+        #BOX{
+            width: 24rem;
+            height: 20rem;
+            font-size: 35px;
+             display: grid; 
+             grid-gap: 0.9px;
+            grid-template-columns: 1fr 1fr 1fr;
+             margin: auto;
+            box-sizing: border-box;
+            text-align: center;
+        }
+    
+
+        .btn {
+            background-color: #ffc947; color: #185adb;
+            margin:  0rem 41.7%;
+            border: 0px; padding: 1rem; 
+            font-weight: bold; cursor: pointer;
+        }
+
+        .btn:hover { background-color: rgb(7, 26, 50);
+                        color: #ffc947 ;
+        }
+        .reset-container { text-align: center }
+
+        @media screen and (max-width: 490px) {
+            body{
+                transform: scale(0.85);
+            }
+        }
+    </style>
+    <title>TIC-TAC-TOE</title>
+</head>
+<body>
+    <h1>TIC-TAC-TOE</h1>
+    <h2 id="player">Current Player: X</h2>
+    <br>
+    <div id="BOX">
+        <div class="box"></div>
+        <div class="box"></div>
+        <div class="box"></div>
+        <div class="box"></div>
+        <div class="box"></div>
+        <div class="box"></div>
+        <div class="box"></div>
+        <div class="box"></div>
+        <div class="box"></div>
+</div>
+<br>
+<br>
+<br>
+
+
+<h2 id="winner" class="heading"></h2>
+<div class="reset-container">
+    <button class="btn" id="reset" type="reset">RESET</button>
+</div>
+
+<script>
+var currentPlayer = 'X';
+let box = document.getElementsByClassName('box')
+    let player = document.getElementById('player');
+  const boxes = document.querySelectorAll('.box');
+let reset = document.getElementById('reset')
+let winner = document.getElementById('winner')
+const winPositions = ['012', '345', '678', '036', '147', '258', '048', '246']
+
+
+
+boxes.forEach(box => {
+    box.addEventListener('click', function (){
+        if(event.target.innerText != '' || winner.innerText != ''){
+            return;
+        }
+            event.target.innerText = currentPlayer
+            if(isWInner()){
+                winner.innerText = 'Player ' + currentPlayer + ' WINS!!';
+               
+            } else{
+                currentPlayer = (currentPlayer == 'X') ? 'O' : 'X';
+                player.innerText = 'Current Player: ' + currentPlayer;
+            }
+                // console.log('box clicked', event);
+            if(isDraw() && !isWInner()){
+                winner.innerText = 'Game is DRAWN!!'; 
+            }
+        })
+        reset.addEventListener('click', function(){
+            winner.innerText = ''
+            currentPlayer = 'X'
+            player.innerText = 'Current Player: ' + currentPlayer
+            boxes.forEach(box => box.innerText = '')
+        })
+        
+            function isWInner(){
+                for (let position of winPositions){
+                    let position1 = boxes[position[0]].innerText;
+                    let position2 = boxes[position[1]].innerText;
+                    let position3 = boxes[position[2]].innerText;
+                    if(position1 == currentPlayer && position2 == currentPlayer && position3 == currentPlayer){
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
+
+
+        function isDraw(){
+              let draw = true;
+            for (let box of boxes) {
+                draw = draw && box.innerText != '';
+            }
+            return draw;
+        }
+    
+</script>
+</body>
+</html>
